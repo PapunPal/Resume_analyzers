@@ -35,10 +35,6 @@ const UploadResume = () => {
       const data =
         await uploadResume(file);
 
-      alert(
-        "Resume analyzed successfully!"
-      );
-
       navigate(
         `/resumes/${data.resume._id}`
       );
@@ -55,81 +51,152 @@ const UploadResume = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-16">
-      <div className="bg-white shadow-xl rounded-3xl p-10">
-        <h1 className="text-4xl font-bold text-center mb-4">
-          Upload Resume
-        </h1>
+    <div className="min-h-screen bg-[#0B1120] text-white">
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <div className="text-center mb-10">
+          <h1 className="text-5xl font-bold mb-4">
+            Upload Resume
+          </h1>
 
-        <p className="text-center text-slate-500 mb-10">
-          Upload your resume and get
-          AI-powered ATS analysis.
-        </p>
-
-        {/* Upload Area */}
-        <label
-          htmlFor="resumeFile"
-          className="border-2 border-dashed border-blue-300 rounded-2xl h-72 flex flex-col justify-center items-center cursor-pointer hover:border-blue-500 transition"
-        >
-          <div className="text-6xl mb-4">
-            📄
-          </div>
-
-          <p className="text-lg font-medium">
-            Click to select resume
+          <p className="text-slate-400 text-lg">
+            Upload your resume and receive
+            AI-powered ATS analysis instantly.
           </p>
+        </div>
 
-          <p className="text-sm text-slate-500 mt-2">
-            PDF files only
-          </p>
-
-          <input
-            id="resumeFile"
-            type="file"
-            accept=".pdf"
-            className="hidden"
-            onChange={
-              handleFileChange
-            }
-          />
-        </label>
-
-        {/* Selected File */}
-        {file && (
-          <div className="mt-6 bg-slate-100 p-4 rounded-xl">
-            <p className="font-medium">
-              Selected File:
-            </p>
-
-            <p className="text-blue-600">
-              {file.name}
-            </p>
-
-            <p className="text-sm text-slate-500">
-              {(
-                file.size /
-                1024
-              ).toFixed(2)}{" "}
-              KB
-            </p>
-          </div>
-        )}
-
-        {/* Upload Button */}
-        <div className="mt-8 text-center">
-          <button
-            onClick={
-              handleUpload
-            }
-            disabled={
-              loading || !file
-            }
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium disabled:opacity-50"
+        <div className="bg-[#111827] border border-slate-800 rounded-3xl p-8 md:p-10">
+          <label
+            htmlFor="resumeFile"
+            className="
+            border-2
+            border-dashed
+            border-[#1C82AD]
+            rounded-3xl
+            h-80
+            flex
+            flex-col
+            justify-center
+            items-center
+            cursor-pointer
+            hover:bg-[#1C82AD]/5
+            transition-all
+            duration-300
+            "
           >
-            {loading
-              ? "Analyzing Resume..."
-              : "Upload & Analyze"}
-          </button>
+            <div className="text-7xl mb-5">
+              📄
+            </div>
+
+            <p className="text-2xl font-semibold mb-2">
+              Select Your Resume
+            </p>
+
+            <p className="text-slate-400">
+              PDF files only
+            </p>
+
+            <input
+              id="resumeFile"
+              type="file"
+              accept=".pdf"
+              className="hidden"
+              onChange={
+                handleFileChange
+              }
+            />
+          </label>
+
+          {file && (
+            <div className="mt-8 bg-[#0F172A] border border-slate-800 rounded-2xl p-5">
+              <p className="text-slate-400 text-sm mb-2">
+                Selected File
+              </p>
+
+              <p className="text-[#03C988] font-semibold break-all">
+                {file.name}
+              </p>
+
+              <p className="text-slate-500 mt-2">
+                {(
+                  file.size /
+                  1024
+                ).toFixed(2)}{" "}
+                KB
+              </p>
+            </div>
+          )}
+
+          <div className="mt-8">
+            <button
+              onClick={
+                handleUpload
+              }
+              disabled={
+                loading || !file
+              }
+              className="
+              w-full
+              bg-[#03C988]
+              text-black
+              font-bold
+              py-4
+              rounded-2xl
+              hover:scale-[1.01]
+              transition-all
+              duration-300
+              disabled:opacity-50
+              disabled:cursor-not-allowed
+              "
+            >
+              {loading
+                ? "Analyzing Resume..."
+                : "Upload & Analyze"}
+            </button>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 mt-10">
+          <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6 text-center">
+            <div className="text-4xl mb-4">
+              📊
+            </div>
+
+            <h3 className="font-semibold mb-2">
+              ATS Score
+            </h3>
+
+            <p className="text-slate-400 text-sm">
+              Get detailed ATS evaluation.
+            </p>
+          </div>
+
+          <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6 text-center">
+            <div className="text-4xl mb-4">
+              🤖
+            </div>
+
+            <h3 className="font-semibold mb-2">
+              AI Analysis
+            </h3>
+
+            <p className="text-slate-400 text-sm">
+              Discover strengths and weaknesses.
+            </p>
+          </div>
+
+          <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6 text-center">
+            <div className="text-4xl mb-4">
+              🚀
+            </div>
+
+            <h3 className="font-semibold mb-2">
+              Suggestions
+            </h3>
+
+            <p className="text-slate-400 text-sm">
+              Improve your chances of getting hired.
+            </p>
+          </div>
         </div>
       </div>
     </div>

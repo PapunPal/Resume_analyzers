@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import {
   deleteResume,
   getResumes,
 } from "../api/resumeApi";
-
-import type { Resume } from "../types/resume.ts";
+import type { Resume } from "../types/resume";
 
 const Dashboard = () => {
   const [resumes, setResumes] =
@@ -58,146 +56,215 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="text-center mt-20">
+      <div className="min-h-[60vh] flex items-center justify-center bg-[#0B1120] text-white">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold">
-            My Resumes
-          </h1>
+    <div className="min-h-screen bg-[#0B1120] text-white">
+      <div className="max-w-7xl mx-auto px-4 py-10">
+        <div className="flex flex-col md:flex-row justify-between md:items-center gap-6 mb-10">
+          <div>
+            <h1 className="text-4xl font-bold">
+              My Resumes
+            </h1>
 
-          <p className="text-slate-500">
-            Total Resumes:{" "}
-            {resumes.length}
-          </p>
-        </div>
-
-        <Link
-          to="/resumes/upload"
-          className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
-        >
-          + Add Resume
-        </Link>
-      </div>
-
-      {/* Empty State */}
-      {resumes.length === 0 ? (
-        <div className="bg-white shadow rounded-xl p-12 text-center">
-          <h2 className="text-2xl font-semibold mb-4">
-            No Resume Available
-          </h2>
-
-          <p className="text-slate-500 mb-6">
-            Upload your first resume
-            and get AI analysis.
-          </p>
+            <p className="text-slate-400 mt-2">
+              Manage and analyze all your resumes
+            </p>
+          </div>
 
           <Link
-            to="/
-            resumes/upload"
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg"
+            to="/resumes/upload"
+            className="w-full md:w-auto bg-[#03C988] text-black font-semibold px-6 py-3 rounded-2xl text-center hover:scale-105 transition-all duration-300"
           >
-            Upload Resume
+            + Add Resume
           </Link>
         </div>
-      ) : (
-        <div className="bg-white rounded-xl shadow overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-slate-100">
-              <tr>
-                <th className="p-4 text-left">
-                  #
-                </th>
 
-                <th className="p-4 text-left">
-                  Resume Name
-                </th>
+        <div className="grid md:grid-cols-3 gap-6 mb-10">
+          <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6">
+            <h3 className="text-slate-400 text-sm">
+              Total Resumes
+            </h3>
 
-                <th className="p-4 text-left">
-                  ATS Score
-                </th>
+            <p className="text-4xl font-bold mt-2 text-[#03C988]">
+              {resumes.length}
+            </p>
+          </div>
 
-                <th className="p-4 text-left">
-                  Date
-                </th>
+          <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6">
+            <h3 className="text-slate-400 text-sm">
+              Highest ATS
+            </h3>
 
-                <th className="p-4 text-left">
-                  Actions
-                </th>
-              </tr>
-            </thead>
+            <p className="text-4xl font-bold mt-2 text-[#1C82AD]">
+              {resumes.length
+                ? Math.max(
+                    ...resumes.map(
+                      (r) =>
+                        r.analysis
+                          .atsScore
+                    )
+                  )
+                : 0}
+            </p>
+          </div>
 
-            <tbody>
-              {resumes.map(
-                (
-                  resume,
-                  index
-                ) => (
-                  <tr
-                    key={
-                      resume._id
-                    }
-                    className="border-t"
-                  >
-                    <td className="p-4">
-                      {index + 1}
-                    </td>
+          <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6">
+            <h3 className="text-slate-400 text-sm">
+              Average ATS
+            </h3>
 
-                    <td className="p-4">
-                      {
-                        resume.fileName
-                      }
-                    </td>
-
-                    <td className="p-4">
-                      <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full">
-                        {
-                          resume
-                            .analysis
-                            .atsScore
-                        }
-                      </span>
-                    </td>
-
-                    <td className="p-4">
-                      {new Date(
-                        resume.createdAt
-                      ).toLocaleDateString()}
-                    </td>
-
-                    <td className="p-4 flex gap-3">
-                      <Link
-                        to={`/resumes/${resume._id}`}
-                        className="bg-blue-500 text-white px-3 py-1 rounded"
-                      >
-                        View
-                      </Link>
-
-                      <button
-                        onClick={() =>
-                          handleDelete(
-                            resume._id
-                          )
-                        }
-                        className="bg-red-500 text-white px-3 py-1 rounded"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
+            <p className="text-4xl font-bold mt-2 text-white">
+              {resumes.length
+                ? Math.round(
+                    resumes.reduce(
+                      (
+                        acc,
+                        curr
+                      ) =>
+                        acc +
+                        curr.analysis
+                          .atsScore,
+                      0
+                    ) /
+                      resumes.length
+                  )
+                : 0}
+            </p>
+          </div>
         </div>
-      )}
+
+        {resumes.length === 0 ? (
+          <div className="bg-[#111827] border border-slate-800 rounded-3xl p-16 text-center">
+            <div className="text-6xl mb-6">
+              📄
+            </div>
+
+            <h2 className="text-3xl font-bold mb-4">
+              No Resume Available
+            </h2>
+
+            <p className="text-slate-400 mb-8">
+              Upload your first resume and get
+              AI-powered analysis.
+            </p>
+
+            <Link
+              to="/resumes/upload"
+              className="inline-block bg-[#03C988] text-black px-8 py-3 rounded-2xl font-semibold"
+            >
+              Upload Resume
+            </Link>
+          </div>
+        ) : (
+          <div className="bg-[#111827] border border-slate-800 rounded-3xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-175">
+                <thead className="bg-[#13005A]">
+                  <tr>
+                    <th className="p-5 text-left">
+                      #
+                    </th>
+
+                    <th className="p-5 text-left">
+                      Resume Name
+                    </th>
+
+                    <th className="p-5 text-left">
+                      ATS Score
+                    </th>
+
+                    <th className="p-5 text-left">
+                      Date
+                    </th>
+
+                    <th className="p-5 text-left">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {resumes.map(
+                    (
+                      resume,
+                      index
+                    ) => (
+                      <tr
+                        key={
+                          resume._id
+                        }
+                        className="border-t border-slate-800 hover:bg-slate-900/30"
+                      >
+                        <td className="p-5">
+                          {index + 1}
+                        </td>
+
+                        <td className="p-5">
+                          {
+                            resume.fileName
+                          }
+                        </td>
+
+                        <td className="p-5">
+                          <span
+                            className={`px-4 py-2 rounded-full font-semibold ${
+                              resume
+                                .analysis
+                                .atsScore >=
+                              70
+                                ? "bg-[#03C988]/20 text-[#03C988]"
+                                : "bg-yellow-500/20 text-yellow-400"
+                            }`}
+                          >
+                            {
+                              resume
+                                .analysis
+                                .atsScore
+                            }
+                          </span>
+                        </td>
+
+                        <td className="p-5 text-slate-400">
+                          {new Date(
+                            resume.createdAt
+                          ).toLocaleDateString()}
+                        </td>
+
+                        <td className="p-5">
+                          <div className="flex flex-wrap gap-3">
+                            <Link
+                              to={`/resumes/${resume._id}`}
+                              className="bg-[#1C82AD] px-4 py-2 rounded-xl hover:opacity-90"
+                            >
+                              View
+                            </Link>
+
+                            <button
+                              onClick={() =>
+                                handleDelete(
+                                  resume._id
+                                )
+                              }
+                              className="bg-red-500 px-4 py-2 rounded-xl hover:bg-red-600"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

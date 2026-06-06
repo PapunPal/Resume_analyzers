@@ -1,43 +1,70 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 const Header = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const {
+    isAuthenticated,
+    user,
+    logout,
+  } = useAuth();
+
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    await logout();
-    navigate("/login");
-  };
+  const handleLogout =
+    async () => {
+      await logout();
+      navigate("/login");
+    };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="h-16 flex items-center justify-between">
-          {/* Logo */}
+    <header className="sticky top-0 z-50 bg-[#111827]/90 backdrop-blur-xl border-b border-slate-800">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="h-20 flex items-center justify-between">
           <Link
             to="/"
-            className="flex items-center gap-2"
+            className="flex items-center gap-3"
           >
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold">
+            <div
+              className="
+              w-11
+              h-11
+              rounded-2xl
+              flex
+              items-center
+              justify-center
+              font-bold
+              text-white
+              "
+              style={{
+                background:
+                  "linear-gradient(135deg,#13005A,#1C82AD)",
+              }}
+            >
               AI
             </div>
 
             <div>
-              <h1 className="font-bold text-slate-900 text-lg">
+              <h1 className="font-bold text-white text-xl">
                 Resume Analyzer
               </h1>
+
+              <p className="text-slate-400 text-xs">
+                AI Powered ATS Review
+              </p>
             </div>
           </Link>
 
-          {/* Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             <NavLink
               to="/"
               className={({ isActive }) =>
                 isActive
-                  ? "text-blue-600 font-medium"
-                  : "text-slate-600 hover:text-blue-600 transition"
+                  ? "text-[#03C988] font-medium"
+                  : "text-slate-300 hover:text-[#03C988] transition"
               }
             >
               Home
@@ -47,10 +74,12 @@ const Header = () => {
               <>
                 <NavLink
                   to="/dashboard"
-                  className={({ isActive }) =>
+                  className={({
+                    isActive,
+                  }) =>
                     isActive
-                      ? "text-blue-600 font-medium"
-                      : "text-slate-600 hover:text-blue-600 transition"
+                      ? "text-[#03C988] font-medium"
+                      : "text-slate-300 hover:text-[#03C988] transition"
                   }
                 >
                   Dashboard
@@ -58,10 +87,12 @@ const Header = () => {
 
                 <NavLink
                   to="/resumes/upload"
-                  className={({ isActive }) =>
+                  className={({
+                    isActive,
+                  }) =>
                     isActive
-                      ? "text-blue-600 font-medium"
-                      : "text-slate-600 hover:text-blue-600 transition"
+                      ? "text-[#03C988] font-medium"
+                      : "text-slate-300 hover:text-[#03C988] transition"
                   }
                 >
                   Upload Resume
@@ -70,36 +101,60 @@ const Header = () => {
             )}
           </nav>
 
-          {/* Right Side */}
           <div className="flex items-center gap-3">
             {!isAuthenticated ? (
               <>
                 <Link
                   to="/login"
-                  className="px-4 py-2 text-slate-700 hover:text-blue-600 transition"
+                  className="text-slate-300 hover:text-[#03C988] transition"
                 >
                   Login
                 </Link>
 
                 <Link
                   to="/register"
-                  className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+                  className="
+                  bg-[#03C988]
+                  text-black
+                  font-semibold
+                  px-5
+                  py-2.5
+                  rounded-xl
+                  hover:scale-105
+                  transition-all
+                  duration-300
+                  "
                 >
                   Get Started
                 </Link>
               </>
             ) : (
               <>
-                <Link
-                  to="/dashboard"
-                  className="px-4 py-2 text-slate-700 hover:text-blue-600 transition"
-                >
-                  Dashboard
-                </Link>
+                <div className="hidden md:flex items-center gap-2 bg-[#0B1120] border border-slate-800 px-4 py-2 rounded-xl">
+                  <div className="w-8 h-8 rounded-full bg-[#1C82AD] flex items-center justify-center text-sm font-bold">
+                    {user?.name?.charAt(
+                      0
+                    )}
+                  </div>
+
+                  <span className="text-slate-300">
+                    {user?.name}
+                  </span>
+                </div>
 
                 <button
-                  onClick={handleLogout}
-                  className="px-5 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+                  onClick={
+                    handleLogout
+                  }
+                  className="
+                  bg-red-500
+                  px-5
+                  py-2.5
+                  rounded-xl
+                  text-white
+                  hover:bg-red-600
+                  transition-all
+                  "
                 >
                   Logout
                 </button>
