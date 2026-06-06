@@ -12,7 +12,8 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
     "axios": "^1.17.0",
-    "react": "^19.2.6",
+    "lucide-react": "^1.17.0",
+    "react": "^19.2.7",
     "react-dom": "^19.2.6",
     "react-hook-form": "^7.77.0",
     "react-router-dom": "^7.16.0",

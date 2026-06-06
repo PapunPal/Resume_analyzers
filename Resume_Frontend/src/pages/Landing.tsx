@@ -1,6 +1,21 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+
+
 
 const Landing = () => {
+  const { isAuthenticated } = useAuth();
+
+  const navigate = useNavigate();
+
+  const handleAnalyzeResume = () => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <div className="bg-[#0B1120] text-white">
       <section
@@ -29,12 +44,12 @@ const Landing = () => {
           </p>
 
           <div className="flex flex-wrap justify-center gap-5">
-            <Link
-              to="/register"
+            <button
+              onClick={handleAnalyzeResume}
               className="bg-[#03C988] text-black font-semibold px-8 py-3 rounded-2xl hover:scale-105 transition-all duration-300"
             >
               Get Started Free
-            </Link>
+            </button>
 
             <Link
               to="/login"
@@ -199,12 +214,12 @@ const Landing = () => {
             feedback instantly.
           </p>
 
-          <Link
-            to="/register"
-            className="bg-[#03C988] text-black font-semibold px-10 py-4 rounded-2xl hover:scale-105 transition-all duration-300 inline-block"
+          <button
+            onClick={handleAnalyzeResume}
+            className="bg-[#03C988] text-black font-semibold px-10 py-4 rounded-2xl hover:scale-105 transition-all duration-300"
           >
             Analyze My Resume
-          </Link>
+          </button>
         </div>
       </section>
     </div>

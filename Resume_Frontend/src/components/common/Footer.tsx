@@ -16,13 +16,13 @@ const Footer = () => {
             </p>
             
             {/* Decorative line */}
-            <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mt-3 rounded-full"></div>
+            <div className="w-12 h-1 bg-linear-to-r from-purple-500 to-pink-500 mt-3 rounded-full"></div>
           </div>
 
           {/* Links */}
           <div className="flex gap-12">
             <div>
-              <h3 className="font-semibold mb-3 text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text">
+              <h3 className="font-semibold mb-3 text-transparent bg-linear-to-r from-purple-400 to-pink-400 bg-clip-text">
                 Links
               </h3>
               <ul className="space-y-2 text-sm">
@@ -46,7 +46,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link 
-                    to="/upload" 
+                    to="/resumes/upload" 
                     className="text-gray-400 hover:text-purple-400 transition flex items-center gap-1 group"
                   >
                     <span className="group-hover:translate-x-1 transition">→</span>
@@ -57,12 +57,12 @@ const Footer = () => {
             </div>
 
             <div>
-              <h3 className="font-semibold mb-3 text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text">
+              <h3 className="font-semibold mb-3 text-transparent bg-linear-to-r from-purple-400 to-pink-400 bg-clip-text">
                 Connect
               </h3>
               <div className="flex gap-4">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/PapunPal"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-400 hover:text-purple-400 transition px-3 py-1 rounded-lg bg-gray-900/50 hover:bg-gray-900"
@@ -70,7 +70,7 @@ const Footer = () => {
                   GitHub
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/papun-pal-247833285/"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-400 hover:text-purple-400 transition px-3 py-1 rounded-lg bg-gray-900/50 hover:bg-gray-900"
