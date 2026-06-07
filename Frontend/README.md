@@ -1,73 +1,96 @@
-# React + TypeScript + Vite
+# Resume Analyzer Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This frontend is the React + TypeScript + Vite application for the Resume Analyzer project. It provides user authentication, resume upload, resume list view, and detailed resume analysis from the backend API.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- User registration and login
+- Protected dashboard for user resumes
+- Resume PDF upload and analysis
+- Resume detail page with AI analysis output
+- Logout support
+- Responsive layout with Tailwind CSS
 
-## React Compiler
+## Tech stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router DOM
+- Axios
+- React Hook Form
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Install dependencies
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd Frontend
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The frontend uses `VITE_BASE_URL` to connect to the backend API. Update the `.env` file in `Frontend` as needed:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_BASE_URL=http://localhost:5000/api
 ```
+
+If you deploy the backend, set it to the deployed backend base URL, for example:
+
+```env
+VITE_BASE_URL=https://your-backend-url.com/api
+```
+
+### Run the app
+
+```bash
+npm run dev
+```
+
+Open the local Vite URL shown in the terminal, typically `http://localhost:5173`.
+
+### Build for production
+
+```bash
+npm run build
+```
+
+Preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## Project structure
+
+- `src/App.tsx` - main layout and route outlet
+- `src/main.tsx` - React app bootstrap
+- `src/api/axios.ts` - Axios instance configured with `VITE_BASE_URL`
+- `src/pages/` - application pages for landing, login, register, dashboard, resume upload, and details
+- `src/components/` - shared UI components like header, footer, and loading screen
+- `src/context/AuthContext.tsx` - authentication state provider
+- `src/hooks/useAuth.ts` - hook for accessing auth context
+- `src/routes/ProtectedRoute.tsx` - route guard for authenticated pages
+- `src/types/` - TypeScript types for users and resume data
+
+## Available scripts
+
+- `npm run dev` - start the Vite development server
+- `npm run build` - compile TypeScript and build the app for production
+- `npm run preview` - preview the production build
+- `npm run lint` - run ESLint
+
+## Notes
+
+- The app sends credentials using `axios` with `withCredentials: true`.
+- The backend must support cookies and CORS for auth routes.
+- Ensure the backend is running before uploading resumes or signing in.
+
+## Deployment
+
+For deployment, build the app with `npm run build` and host the generated `dist/` folder with any static site host.
+
+Update `VITE_BASE_URL` to point to your deployed backend URL when deploying.
