@@ -1,18 +1,11 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import "dotenv/config";
-
-const genAI = new GoogleGenerativeAI(
-    process.env.GEMINI_API_KEY
-);
-
+import { GoogleGenAI } from "@google/genai";
+const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);
 const analyzeResume = async (resumeText) => {
-    const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash"
-    }
-    );
+
 
     const prompt = `
-        You are an ATS resume analyzer.
+    You are an ATS resume analyzer.
 
         Analyze the resume and return ONLY valid JSON.
 
@@ -37,17 +30,19 @@ const analyzeResume = async (resumeText) => {
     ${resumeText}
     `;
 
-    const result = await model.generateContent(prompt);
+    const response = await ai.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: prompt,
+    });
 
-    const response = result.response.text();
 
+    // console.log("AI Response:", response.text);
     // Gemini sometimes wraps JSON in markdown
-    const cleanedResponse = response
+    const cleanedResponse = response.text
         .replace(/```json/g, "")
         .replace(/```/g, "")
         .trim();
 
     return JSON.parse(cleanedResponse);
 };
-
 export default analyzeResume;
